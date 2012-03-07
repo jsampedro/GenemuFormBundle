@@ -22,6 +22,12 @@
 {% endspaceless %}
 {% endblock genemu_recaptcha_widget %}
 
+{% block genemu_jquerydatetime_widget %}
+{% spaceless %}
+        <input id="{{id}}" {{ block('attributes') }} value="{{ value | date('d/m/Y H:i')}}"/>
+    {% endspaceless %}
+{% endblock genemu_jquerydatetime_widget %}
+
 {% block genemu_jquerydate_widget %}
 {% spaceless %}
     {% if widget == "single_text" %}

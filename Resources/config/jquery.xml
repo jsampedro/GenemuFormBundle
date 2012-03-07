@@ -34,6 +34,10 @@
             <tag name="form.type" alias="genemu_jquerydate" />
             <argument>%genemu.form.date.options%</argument>
         </service>
+        <service id="genemu.form.jquery.type.datetime" class="Genemu\Bundle\FormBundle\Form\JQuery\Type\DateTimeType">
+            <tag name="form.type" alias="genemu_jquerydatetime" />
+            <argument>%genemu.form.date.options%</argument>
+        </service>
         <service id="genemu.form.jquery.type.file" class="Genemu\Bundle\FormBundle\Form\JQuery\Type\FileType">
             <tag name="form.type" alias="genemu_jqueryfile" />
             <argument>%genemu.form.file.options%</argument>

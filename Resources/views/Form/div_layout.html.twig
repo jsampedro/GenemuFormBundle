@@ -24,9 +24,7 @@
 
 {% block genemu_jquerydatetime_widget %}
 {% spaceless %}
-{%set value = value | date('d-m-Y H:i')%}
         {{ block("field_widget") }}
-
 {% endspaceless %}
 {% endblock genemu_jquerydatetime_widget %}
 

@@ -6,6 +6,7 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToLocalizedStringTransformer;
 
 /**
  * DateType
@@ -13,22 +14,15 @@ use Symfony\Component\Form\FormView;
  */
 class DateTimeType extends AbstractType {
 
-    private $options;
-
-    /**
-     * Constructs
-     *
-     * @param array $options
-     */
-    public function __construct(array $options) {
-        $this->options = $options;
-    }
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilder $builder, array $options) {
         $options = $this->getDefaultOptions($options);
+
+        $builder->appendClientTransformer(
+            new DateTimeToLocalizedStringTransformer()
+                );
 
         $builder
                 ->setAttribute('culture', $options['culture'])
@@ -40,11 +34,11 @@ class DateTimeType extends AbstractType {
      */
     public function buildView(FormView $view, FormInterface $form) {
         $configs = $form->getAttribute('configs');
-    
 
         $view
                 ->set('configs', $configs)
-                ->set('culture', $form->getAttribute('culture'));
+                ->set('culture', $form->getAttribute('culture'))
+                ->set('value', $form->getClientData());
     }
 
     /**
@@ -53,12 +47,9 @@ class DateTimeType extends AbstractType {
     public function getDefaultOptions(array $options) {
         $defaultOptions = array(
             'culture' => \Locale::getDefault(),
-            'input' => 'datetime',
-            'date_widget' => 'single_text',
-            'time_widget' => 'single_text',
             'configs' => array_merge(array(
-                'dateFormat' => 'dd-mm-yy',
-                    ), $this->options),
+                'dateFormat' => 'dd/mm/yy',
+                    ), $options),
         );
 
         $options = array_replace_recursive($defaultOptions, $options);
@@ -70,7 +61,7 @@ class DateTimeType extends AbstractType {
      * {@inheritdoc}
      */
     public function getParent(array $options) {
-        return 'text';
+        return 'field';
     }
 
     /**
@@ -79,6 +70,5 @@ class DateTimeType extends AbstractType {
     public function getName() {
         return 'genemu_jquerydatetime';
     }
-
 
 }

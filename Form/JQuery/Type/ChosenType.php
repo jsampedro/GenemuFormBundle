@@ -31,8 +31,8 @@ class ChosenType extends AbstractType
     public function buildForm(FormBuilder $builder, array $options)
     {
 
+        // if using entity_id then use special ClientTransformer to return entity id instead of hydrated entity
         if ($options['widget'] == 'entity_id') {
-
             $builder->resetClientTransformers();
             $builder->appendClientTransformer(new EntityToIdTransformer($options['choice_list']));
         }
@@ -110,6 +110,7 @@ class ChosenType extends AbstractType
      */
     public function getParent(array $options)
     {
+        //entity_id is an abstract widget. Real widget should be entity
         if ($options['widget'] == 'entity_id') {
             $options['widget'] = 'entity';
         }

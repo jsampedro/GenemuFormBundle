@@ -15,7 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\FormInterface;
-use Genemu\Bundle\FormBundle\Form\Core\DataTransformer\EntityToIdTransformer;
+
 
 /**
  * ChosenType to JQueryLib
@@ -30,12 +30,6 @@ class ChosenType extends AbstractType
      */
     public function buildForm(FormBuilder $builder, array $options)
     {
-
-        // if using entity_id then use special ClientTransformer to return entity id instead of hydrated entity
-        if ($options['widget'] == 'entity_id') {
-            $builder->resetClientTransformers();
-            $builder->appendClientTransformer(new EntityToIdTransformer($options['choice_list']));
-        }
 
         $builder->setAttribute('allow_single_deselect', $options['allow_single_deselect'])
                 ->setAttribute('route_name', $options['route_name'])
@@ -110,11 +104,6 @@ class ChosenType extends AbstractType
      */
     public function getParent(array $options)
     {
-        //entity_id is an abstract widget. Real widget should be entity
-        if ($options['widget'] == 'entity_id') {
-            $options['widget'] = 'entity';
-        }
-
         return $options['widget'];
     }
 
